@@ -65,7 +65,7 @@ public final class ArtifactRoot implements Comparable<ArtifactRoot>, Serializabl
    *
    * <p>Returns the given path as the external source root. The path should end with {@link
    * LabelConstants.EXTERNAL_REPOSITORY_LOCATION} since the external repository root is always
-   * $OUTPUT_BASE/external regardless of the layout of the exec root.
+   * $OUTPUT_BASE/__external__ regardless of the layout of the exec root.
    */
   public static ArtifactRoot asExternalSourceRoot(Root root) {
     Preconditions.checkArgument(

@@ -9,7 +9,7 @@ tasks:
       - mkdir $HOME/bazeltest
     build_flags:
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     build_targets:
       - "//src:bazel"
       - "//src:bazel_jdk_minimal"
@@ -18,7 +18,7 @@ tasks:
       - "--sandbox_default_allow_network=false"
       - "--sandbox_writable_path=$HOME/bazeltest"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     test_targets:
       - "//scripts/..."
       - "//src/java_tools/..."
@@ -50,7 +50,7 @@ tasks:
       - mkdir $HOME/bazeltest
     build_flags:
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     build_targets:
       - "//src:bazel"
       - "//src:bazel_jdk_minimal"
@@ -59,7 +59,7 @@ tasks:
       - "--sandbox_default_allow_network=false"
       - "--sandbox_writable_path=$HOME/bazeltest"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     test_targets:
       - "//scripts/..."
       - "//src/java_tools/..."
@@ -86,7 +86,7 @@ tasks:
       - mkdir $HOME/bazeltest
     build_flags:
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
       - "--test_env=REMOTE_NETWORK_ADDRESS=bazel.build:80"
     build_targets:
       - "//src:bazel"
@@ -96,7 +96,7 @@ tasks:
       - "--sandbox_default_allow_network=false"
       - "--sandbox_writable_path=$HOME/bazeltest"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
       # Configure and enable tests that require access to the network.
       - "--test_env=REMOTE_NETWORK_ADDRESS=bazel.build:80"
     test_targets:
@@ -129,7 +129,7 @@ tasks:
       - mkdir $HOME/bazeltest
     build_flags:
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     build_targets:
       - "//src:bazel"
       - "//src:bazel_jdk_minimal"
@@ -138,7 +138,7 @@ tasks:
       - "--sandbox_default_allow_network=false"
       - "--sandbox_writable_path=$HOME/bazeltest"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     test_targets:
       - "//src/test/shell/bazel:cc_integration_test"
     include_json_profile:
@@ -153,7 +153,7 @@ tasks:
       - mkdir $HOME/bazeltest
     build_flags:
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
       - "--test_env=REMOTE_NETWORK_ADDRESS=bazel.build:80"
     build_targets:
       - "//src:bazel"
@@ -163,7 +163,7 @@ tasks:
       - "--sandbox_default_allow_network=false"
       - "--sandbox_writable_path=$HOME/bazeltest"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest/install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
       # Configure and enable tests that require access to the network.
       - "--test_env=REMOTE_NETWORK_ADDRESS=bazel.build:80"
     test_targets:
@@ -190,7 +190,7 @@ tasks:
       - "--host_copt=-w"
       - "--test_env=JAVA_HOME"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest_install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     build_targets:
       - "//src:bazel.exe"
       - "//src:bazel_jdk_minimal"
@@ -200,7 +200,7 @@ tasks:
       - "--host_copt=-w"
       - "--test_env=JAVA_HOME"
       - "--test_env=TEST_INSTALL_BASE=$HOME/bazeltest_install_base"
-      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/external"
+      - "--test_env=TEST_REPOSITORY_HOME=$OUTPUT_BASE/__external__"
     test_targets:
       - "//src:all_windows_tests"
     include_json_profile:
