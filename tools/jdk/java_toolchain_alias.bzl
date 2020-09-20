@@ -41,6 +41,7 @@ java_runtime_alias = rule(
             default = Label("@bazel_tools//tools/jdk:legacy_current_java_runtime"),
         ),
     },
+    incompatible_use_toolchain_transition = True,
 )
 
 def _java_host_runtime_alias(ctx):

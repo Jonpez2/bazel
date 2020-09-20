@@ -628,16 +628,33 @@ toolchain(
 
 load("@local_config_platform//:constraints.bzl", "HOST_CONSTRAINTS")
 
-#toolchain(
-#    name = "local_jdk",
-#    exec_compatible_with = HOST_CONSTRAINTS,
-#    toolchain = "@local_jdk//:jdk",
-#    toolchain_type = ":runtime_toolchain_type",
-#)
+constraint_setting(name = "platform_type")
+
+constraint_value(
+    name = "local",
+    constraint_setting = ":platform_type",
+)
+
+constraint_value(
+    name = "remote",
+    constraint_setting = ":platform_type",
+)
+
+toolchain(
+    name = "local_jdk",
+    target_compatible_with = HOST_CONSTRAINTS + [":local"],
+    toolchain = "@local_jdk//:jdk",
+    toolchain_type = ":runtime_toolchain_type",
+)
 
 toolchain(
     name = "remotejdk11_linux",
     exec_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+        ":remote",
+    ],
+    target_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
     ],
@@ -700,6 +717,9 @@ toolchain(
     exec_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
+    ],
+    target_compatible_with = [
+        "@platforms//os:none",
     ],
     toolchain = "@remotejdk14_linux//:jdk",
     toolchain_type = ":runtime_toolchain_type",

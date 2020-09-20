@@ -341,7 +341,7 @@ EOF
 
   bazel build \
     --platforms=//platform:target \
-    --host_platform=//platform:host \
+    --host_platform=//platform:host  --toolchain_resolution_debug \
      //:sample &> $TEST_log || fail "Build failed"
 
   # Verify contents of sample.log.
