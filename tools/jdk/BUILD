@@ -30,6 +30,8 @@ toolchain_type(name = "toolchain_type")
 # Used to distinguish toolchains used for Java execution, ie the JavaRuntimeInfo.
 toolchain_type(name = "runtime_toolchain_type")
 
+toolchain_type(name = "target_runtime_toolchain_type")
+
 # Points to either :runtime_toolchain_type or :legacy_current_java_runtime
 java_runtime_alias(name = "current_java_runtime")
 
@@ -264,6 +266,17 @@ bootclasspath(
     target_javabase = ":current_java_runtime",
 )
 
+bootclasspath(
+    name = "toolchain_platformclasspath",
+    src = "DumpPlatformClassPath.java",
+    host_javabase = ":current_java_runtime",
+    target_javabase = select({
+        ":local": ":jdk",
+        ":host": ":remote_jdk11",
+        ":absolute": ":absolute_javabase",
+    }),
+)
+
 # Default to the Java 8 language level.
 # TODO(cushon): consider if/when we should increment this?
 # Required by ":toolchain"
@@ -394,7 +407,7 @@ alias(
 
 java_toolchain(
     name = "toolchain_linux",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath"],
+    bootclasspath = [":toolchain_platformclasspath"],
     forcibly_disable_header_compilation = 0,
     genclass = ["@remote_java_tools_linux//:GenClass"],
     header_compiler = ["@remote_java_tools_linux//:Turbine"],
@@ -445,7 +458,7 @@ java_toolchain(
 
 java_toolchain(
     name = "toolchain_openbsd",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath"],
+    bootclasspath = [":toolchain_platformclasspath"],
     forcibly_disable_header_compilation = 0,
     genclass = ["@remote_java_tools_linux//:GenClass"],
     header_compiler = ["@remote_java_tools_linux//:Turbine"],
@@ -474,7 +487,7 @@ java_toolchain(
 
 java_toolchain(
     name = "toolchain_windows",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath"],
+    bootclasspath = [":toolchain_platformclasspath"],
     forcibly_disable_header_compilation = 0,
     genclass = ["@remote_java_tools_windows//:GenClass"],
     header_compiler = ["@remote_java_tools_windows//:Turbine"],
@@ -525,7 +538,7 @@ java_toolchain(
 
 java_toolchain(
     name = "toolchain_darwin",
-    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath"],
+    bootclasspath = [":toolchain_platformclasspath"],
     forcibly_disable_header_compilation = 0,
     genclass = ["@remote_java_tools_darwin//:GenClass"],
     header_compiler = ["@remote_java_tools_darwin//:Turbine"],
@@ -628,33 +641,38 @@ toolchain(
 
 load("@local_config_platform//:constraints.bzl", "HOST_CONSTRAINTS")
 
-constraint_setting(name = "platform_type")
+constraint_setting(
+    name = "target_jdk",
+    default_constraint_value = ":local",
+)
 
 constraint_value(
     name = "local",
-    constraint_setting = ":platform_type",
+    constraint_setting = ":target_jdk",
 )
 
 constraint_value(
-    name = "remote",
-    constraint_setting = ":platform_type",
+    name = "host",
+    constraint_setting = ":target_jdk",
+)
+
+constraint_value(
+    name = "absolute",
+    constraint_setting = ":target_jdk",
 )
 
 toolchain(
-    name = "local_jdk",
-    target_compatible_with = HOST_CONSTRAINTS + [":local"],
-    toolchain = "@local_jdk//:jdk",
-    toolchain_type = ":runtime_toolchain_type",
+    name = "local_runtime",
+    exec_compatible_with = [
+        ":local",
+    ],
+    toolchain = ":jdk",
+    toolchain_type = ":target_runtime_toolchain_type",
 )
 
 toolchain(
     name = "remotejdk11_linux",
     exec_compatible_with = [
-        "@platforms//os:linux",
-        "@platforms//cpu:x86_64",
-        ":remote",
-    ],
-    target_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
     ],
@@ -717,9 +735,6 @@ toolchain(
     exec_compatible_with = [
         "@platforms//os:linux",
         "@platforms//cpu:x86_64",
-    ],
-    target_compatible_with = [
-        "@platforms//os:none",
     ],
     toolchain = "@remotejdk14_linux//:jdk",
     toolchain_type = ":runtime_toolchain_type",

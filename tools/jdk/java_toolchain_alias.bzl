@@ -17,7 +17,7 @@
 def _java_runtime_alias(ctx):
     """An experimental implementation of java_runtime_alias using toolchain resolution."""
     if java_common.is_java_toolchain_resolution_enabled_do_not_use(ctx = ctx):
-        toolchain = ctx.toolchains["@bazel_tools//tools/jdk:runtime_toolchain_type"]
+        toolchain = ctx.toolchains["@bazel_tools//tools/jdk:target_runtime_toolchain_type"]
     else:
         toolchain = ctx.attr._java_runtime[java_common.JavaRuntimeInfo]
     return [
@@ -35,7 +35,7 @@ def _java_runtime_alias(ctx):
 
 java_runtime_alias = rule(
     implementation = _java_runtime_alias,
-    toolchains = ["@bazel_tools//tools/jdk:runtime_toolchain_type"],
+    toolchains = ["@bazel_tools//tools/jdk:target_runtime_toolchain_type"],
     attrs = {
         "_java_runtime": attr.label(
             default = Label("@bazel_tools//tools/jdk:legacy_current_java_runtime"),
